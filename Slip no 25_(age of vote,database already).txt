@@ -1,0 +1,73 @@
+Slip no 25:
+1.1. Write a JSP program to accept Name and Age of Voter and check whether he is
+eligible for voting or not.
+o/p
+<%@ page language="java" %>
+<%@ page import="java.io.*, java.util.*" %>
+<%
+ String name = request.getParameter("name");
+ int age = Integer.parseInt(request.getParameter("age"));
+ if (age >= 18) {
+ out.println("<h3>" + name + ", you are eligible to vote.</h3>");
+ } else {
+ out.println("<h3>" + name + ", you are not eligible to vote.</h3>");
+ }
+%>
+<form method="post" action="">
+ <label for="name">Name:</label>
+ <input type="text" name="name" id="name" required><br><br>
+
+ <label for="age">Age:</label>
+ <input type="number" name="age" id="age" required><br><br>
+
+ <input type="submit" value="Check Eligibility">
+</form>
+2.Write a Java Program for the following: Assume database is already created. x
+o/p
+import java.sql.*;
+
+public class DatabaseOperations {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/your_database_name";
+    private static final String USERNAME = "your_username";
+    private static final String PASSWORD = "your_password";
+
+    public static void main(String[] args) {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            
+            connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            statement = connection.createStatement();
+
+
+            String createTableQuery = "CREATE TABLE employees (id INT PRIMARY KEY, name VARCHAR(50), age INT)";
+            statement.executeUpdate(createTableQuery);
+            System.out.println("Table created successfully.");
+
+            
+            String alterTableQuery = "ALTER TABLE employees ADD COLUMN salary DECIMAL(10,2)";
+            statement.executeUpdate(alterTableQuery);
+            System.out.println("Table altered successfully.");
+
+          
+            String dropTableQuery = "DROP TABLE employees";
+            statement.executeUpdate(dropTableQuery);
+            System.out.println("Table dropped successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
